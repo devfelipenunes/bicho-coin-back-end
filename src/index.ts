@@ -15,12 +15,11 @@ import {
 const app = express();
 
 app.use(helmet());
-
 app.use(morgan("tiny"));
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "*",
+    origin: "*",
   })
 );
 
