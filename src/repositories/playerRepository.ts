@@ -28,7 +28,7 @@ async function getBalanceOf(wallet: string): Promise<string> {
   return balance.toString();
 }
 
-async function getNonce(): Promise<bigint> {
+async function getNonce(wallet: string): Promise<bigint> {
   const nonce = await web3.eth.getTransactionCount(wallet);
   return nonce;
 }
@@ -37,12 +37,12 @@ async function getGasPrice(): Promise<bigint> {
   const gasPrice = await web3.eth.getGasPrice();
   return gasPrice;
 }
-async function mintAndTransfer(to: string): Promise<string> {
+async function mintAndTransfer(wallet: string): Promise<string> {
   const contract = getContract();
-  const nonce = await getNonce();
+  const nonce = await getNonce(WALLET);
   const gasPrice = await getGasPrice();
 
-  const tx = await contract.methods.mint(to).send({
+  const tx = await contract.methods.mint(wallet).send({
     nonce: nonce,
     gasPrice: gasPrice,
   });
