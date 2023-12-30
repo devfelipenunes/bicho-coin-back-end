@@ -1,3 +1,4 @@
+import { Wallet } from "ethers";
 import Web3 from "web3";
 
 const ABI = require("../abi.json");
@@ -48,24 +49,19 @@ async function mintAndTransfer(to: string): Promise<string> {
   return tx.transactionHash;
 }
 
-// async function transfer(value): Promise<string> {
-//   const contract = new web3.eth.Contract(
-//     ABI,
-//     `${process.env.CONTRACT_ADDRESS}`,
-//     { from: wallet }
-//   );
+async function transfer(value: string): Promise<string> {
+  const contract = getContract();
 
-//   const nonce = await web3.eth.getTransactionCount(wallet);
-//   const gasPrice = await web3.eth.getGasPrice();
-//   const tx = await contract.methods
-//     .transfer(wallet, value)
-//     .send({
-//       nonce: nonce,
-//       gasPrice: gasPrice,
-//     });
+  const nonce = await web3.eth.getTransactionCount(value);
+  const gasPrice = await web3.eth.getGasPrice();
+  console.log("Wallet: ", Wallet);
+  const tx = await contract.methods.transfer(WALLET, value).send({
+    nonce: nonce,
+    gasPrice: gasPrice,
+  });
 
-//   return tx.transactionHash;
-// }
+  return tx.transactionHash;
+}
 
 // async function transferFrom(from, value): Promise<string> {
 //   const contract = new web3.eth.Contract(
@@ -89,4 +85,5 @@ async function mintAndTransfer(to: string): Promise<string> {
 export default {
   getBalanceOf,
   mintAndTransfer,
+  transfer,
 };

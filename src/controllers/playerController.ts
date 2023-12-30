@@ -13,7 +13,14 @@ async function postMintTransfer(req: Request, res: Response) {
   return res.json(tx);
 }
 
+async function postTransfer(req: Request, res: Response) {
+  const value = req.params.value;
+  const tx = await playerRepository.transfer(value);
+  return res.json(tx);
+}
+
 export default {
   getBalanceOf,
   postMintTransfer,
+  postTransfer,
 };
